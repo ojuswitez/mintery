@@ -25,8 +25,8 @@ docker run \
     -c "
         tezos-client --endpoint $NODE_URL import secret key originator_address "unencrypted:$ORIGINATOR_PRIV_KEY" || exit 1
         tezos-client --endpoint $NODE_URL --wait none originate contract $CONTRACT transferring 0 from originator_address running /tmp/contract.tz --init '$INITIAL_STORAGE' --burn-cap $BURN_CAP
-        echo Waiting for 20 seconds...
-        sleep 20
+        echo Waiting for 5 seconds...
+        sleep 5
     " | tee log/deploy.log || exit 1
 
 cat log/deploy.log | grep --quiet 'Fatal error' && exit 1
