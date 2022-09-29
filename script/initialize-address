@@ -35,3 +35,6 @@ while [ `http https://api.ghostnet.tzkt.io/v1/accounts/$pkh/balance` -eq 0 ]; do
 done
 echo
 echo "fresh address $pkh initialized"
+
+echo "Buffer time of 30 seconds"
+sleep 30
