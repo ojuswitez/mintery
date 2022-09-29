@@ -24,11 +24,11 @@ docker run \
     tezos/tezos:latest \
     -c "
         tezos-client --endpoint $NODE_URL import secret key originator_address "unencrypted:$ORIGINATOR_PRIV_KEY" || exit 1
-        echo Waiting for 10 seconds...
-        sleep 20        
+        while [ 'http https://api.ghostnet.tzkt.io/v1/accounts/"$ORIGINATOR_ADDRESS"/balance' -eq 0 ]; do
+            echo -n '.'
+            sleep 1
+        done
         tezos-client --endpoint $NODE_URL --wait none originate contract $CONTRACT transferring 0 from originator_address running /tmp/contract.tz --init '$INITIAL_STORAGE' --burn-cap $BURN_CAP
-        echo Waiting for 5 seconds...
-        sleep 5
     " | tee log/deploy.log || exit 1
 
 cat log/deploy.log | grep --quiet 'Fatal error' && exit 1
